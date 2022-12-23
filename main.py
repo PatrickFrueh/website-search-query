@@ -1,5 +1,7 @@
 import PySimpleGUI as sg
+import webbrowser as wb
 
+# Initialize variables
 active_websites = [
     "Vinted",
     "Depop",
@@ -11,20 +13,9 @@ active_websites = [
     "eBay Kleinanzeigen",
 ]
 inactive_websites = []
-keyword = ""
-
-link_websites_query = {
-    "Vinted": f"https://www.vinted.de/catalog?search_text={keyword}",
-    "Depop": f"https://www.depop.com/search/?q={keyword}",
-    "Amazon": f"https://www.amazon.de/s?k={keyword}",
-    "Weekday": f"https://www.weekday.com/de_de/search.html?q={keyword}",
-    "Urban Outfitters": f"https://www.urbanoutfitters.com/de-de/search?q={keyword}",
-    "Idealo": f"https://www.idealo.de/preisvergleich/MainSearchProductCategory.html?q={keyword}",
-    "eBay": f"https://www.ebay.de/sch/i.html?_from=R40&_trksid=p2510209.m570.l1313&_nkw={keyword}&_sacat=0",
-    "eBay Kleinanzeigen": f"https://www.ebay-kleinanzeigen.de/s-{keyword}/k0",
-}
 
 
+# PySimpleGUI Layout
 layout = [
     [sg.Text("Keyword:"), sg.Input(key="-KEYWORD-"), sg.Button("Search")],
     [
@@ -41,6 +32,7 @@ layout = [
 
 window = sg.Window("Website Query", layout)
 
+# Checking for changes inside the GUI
 while True:
     event, values = window.read()
     if event == sg.WIN_CLOSED:
@@ -54,9 +46,25 @@ while True:
             window["-ACTIVE-"].update(active_websites)
             window["-INACTIVE-"].update(inactive_websites)
 
+    # Check if the search button is pressed
+    # Upon pressing check active websites and open them
     if event == "Search":
         if values["-KEYWORD-"]:
-            print(values["-KEYWORD-"])
-            print(active_websites)
+            keyword = values["-KEYWORD-"]
+
+            # Needed link structure to query the entered keyword
+            link_websites_query = {
+                "Vinted": f"https://www.vinted.de/catalog?search_text={keyword}",
+                "Depop": f"https://www.depop.com/search/?q={keyword}",
+                "Amazon": f"https://www.amazon.de/s?k={keyword}",
+                "Weekday": f"https://www.weekday.com/de_de/search.html?q={keyword}",
+                "Urban Outfitters": f"https://www.urbanoutfitters.com/de-de/search?q={keyword}",
+                "Idealo": f"https://www.idealo.de/preisvergleich/MainSearchProductCategory.html?q={keyword}",
+                "eBay": f"https://www.ebay.de/sch/i.html?_from=R40&_trksid=p2510209.m570.l1313&_nkw={keyword}&_sacat=0",
+                "eBay Kleinanzeigen": f"https://www.ebay-kleinanzeigen.de/s-{keyword}/k0",
+            }
+            for current_website in active_websites:
+                if current_website in link_websites_query:
+                    wb.open(link_websites_query[f"{current_website}"])
 
 window.close()
