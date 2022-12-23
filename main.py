@@ -17,7 +17,7 @@ layout = [
     [sg.Text("Active websites"), sg.Text("Inactive websites")],
 ]
 
-window = sg.Window("Website Query", layout)
+window = sg.Window("Fabian's Website Query", layout)
 
 while True:
     event, values = window.read()
@@ -29,5 +29,7 @@ while True:
             picked_website = values["-ACTIVE-"][0]
             inactive_sites.append(picked_website)
             active_sites.remove(picked_website)
+            window["-ACTIVE-"].update(active_sites)
+            window["-INACTIVE-"].update(inactive_sites)
 
 window.close()
