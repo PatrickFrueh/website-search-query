@@ -1,0 +1,12 @@
+{
+    "links": {
+        "Vinted": "https://www.vinted.de/catalog?search_text={keyword}",
+        "Depop": "https://www.depop.com/search/?q={keyword}",
+        "Amazon": "https://www.amazon.de/s?k={keyword}",
+        "Weekday": "https://www.weekday.com/de_de/search.html?q={keyword}",
+        "Urban Outfitters": "https://www.urbanoutfitters.com/de-de/search?q={keyword}",
+        "Idealo": "https://www.idealo.de/preisvergleich/MainSearchProductCategory.html?q={keyword}",
+        "eBay": "https://www.ebay.de/sch/i.html?_from=R40&_trksid=p2510209.m570.l1313&_nkw={keyword}&_sacat=0",
+        "Kleinanzeigen": "https://www.ebay-kleinanzeigen.de/s-{keyword}/k0"
+    }
+}

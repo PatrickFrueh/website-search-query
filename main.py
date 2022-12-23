@@ -1,7 +1,9 @@
 import PySimpleGUI as sg
 import webbrowser as wb
+import json
 
 sg.theme("Topanga")
+# sg.theme("LightGreen3")
 
 # Initialize variables
 active_websites = [
@@ -39,6 +41,7 @@ while True:
     if event == sg.WIN_CLOSED:
         break
 
+    # Switch contents of active to inactive and vice versa
     if event == "⇄":
         if values["-ACTIVE-"]:
             picked_website = values["-ACTIVE-"][0]
@@ -61,19 +64,14 @@ while True:
             keyword = values["-KEYWORD-"]
             keyword = keyword.replace(" ", "+")
 
-            # Needed link structure to query the entered keyword
-            link_websites_query = {
-                "Vinted": f"https://www.vinted.de/catalog?search_text={keyword}",
-                "Depop": f"https://www.depop.com/search/?q={keyword}",
-                "Amazon": f"https://www.amazon.de/s?k={keyword}",
-                "Weekday": f"https://www.weekday.com/de_de/search.html?q={keyword}",
-                "Urban Outfitters": f"https://www.urbanoutfitters.com/de-de/search?q={keyword}",
-                "Idealo": f"https://www.idealo.de/preisvergleich/MainSearchProductCategory.html?q={keyword}",
-                "eBay": f"https://www.ebay.de/sch/i.html?_from=R40&_trksid=p2510209.m570.l1313&_nkw={keyword}&_sacat=0",
-                "Kleinanzeigen": f"https://www.ebay-kleinanzeigen.de/s-{keyword}/k0",
-            }
-            for current_website in active_websites:
-                if current_website in link_websites_query:
-                    wb.open(link_websites_query[f"{current_website}"])
+            # Load JSON-file to access links
+            with open("links.json") as json_file:
+                links = json.load(json_file)
+                # print(links["links"])
+                for current_website in active_websites:
+                    if current_website in links["links"]:
+                        link = links["links"][current_website]
+                        link = link.replace("{keyword}", keyword)
+                        wb.open(link)
 
 window.close()
