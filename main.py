@@ -51,6 +51,7 @@ while True:
     if event == "Search":
         if values["-KEYWORD-"]:
             keyword = values["-KEYWORD-"]
+            keyword = keyword.replace(" ", "+")
 
             # Needed link structure to query the entered keyword
             link_websites_query = {
