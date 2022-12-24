@@ -2,23 +2,12 @@ import PySimpleGUI as sg
 import webbrowser as wb
 import json
 
-sg.theme("Topanga")
-# sg.theme("LightGreen3")
+sg.theme("Default1")
 
 # Initialize variables - read current site names
 with open("links.json", "r") as json_file:
     links = json.load(json_file)
     active_websites = list(links["links"].keys())
-# active_websites = [
-#     "Vinted",
-#     "Depop",
-#     "Amazon",
-#     "Weekday",
-#     "Urban Outfitters",
-#     "Idealo",
-#     "eBay",
-#     "Kleinanzeigen",
-# ]
 inactive_websites = []
 
 # PySimpleGUI Layout
