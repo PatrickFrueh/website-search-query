@@ -20,7 +20,12 @@ inactive_websites = []
 
 # PySimpleGUI Layout
 layout = [
-    [sg.Text("Keyword:"), sg.Input(key="-KEYWORD-", size=25), sg.Button("Search")],
+    [
+        sg.Text("Keyword:"),
+        sg.Input(key="-KEYWORD-", size=25),
+        sg.Button("Search"),
+    ],
+    [sg.Text("                ")],
     [
         sg.Listbox(active_websites, size=(15, 8), key="-ACTIVE-"),
         sg.Button("⇄", size=(len("Switch On/Off"), 2), font=(15)),
@@ -30,7 +35,18 @@ layout = [
             key="-INACTIVE-",
         ),
     ],
-    [sg.Text("        Active"), sg.Stretch(), sg.Text("Inactive          ")],
+    [
+        sg.Text("        Active"),
+        sg.Stretch(),
+        sg.Text("Inactive          "),
+    ],
+    [sg.Text("─────────────────────────────")],
+    [
+        sg.Text("Add Link:"),
+        sg.Input(key="-NEWLINK-", size=25),
+        sg.Button("＋"),
+        sg.Button("?"),
+    ],
 ]
 
 window = sg.Window("Website Query", layout, element_justification="c")
@@ -73,5 +89,8 @@ while True:
                         link = links["links"][current_website]
                         link = link.replace("{keyword}", keyword)
                         wb.open(link)
+
+    # Add a link to the JSON-file using the button
+
 
 window.close()
