@@ -5,17 +5,20 @@ import json
 sg.theme("Topanga")
 # sg.theme("LightGreen3")
 
-# Initialize variables
-active_websites = [
-    "Vinted",
-    "Depop",
-    "Amazon",
-    "Weekday",
-    "Urban Outfitters",
-    "Idealo",
-    "eBay",
-    "Kleinanzeigen",
-]
+# Initialize variables - read current site names
+with open("links.json", "r") as json_file:
+    links = json.load(json_file)
+    active_websites = list(links["links"].keys())
+# active_websites = [
+#     "Vinted",
+#     "Depop",
+#     "Amazon",
+#     "Weekday",
+#     "Urban Outfitters",
+#     "Idealo",
+#     "eBay",
+#     "Kleinanzeigen",
+# ]
 inactive_websites = []
 
 # PySimpleGUI Layout
@@ -31,7 +34,7 @@ layout = [
         sg.Button("⇄", size=(len("Switch On/Off"), 2), font=(15)),
         sg.Listbox(
             inactive_websites,
-            size=(15, len(active_websites)),
+            size=(15, 8),
             key="-INACTIVE-",
         ),
     ],
@@ -43,7 +46,10 @@ layout = [
     [sg.Text("─────────────────────────────")],
     [
         sg.Text("Add Link:"),
-        sg.Input(key="-NEWLINK-", size=25),
+        sg.Input(
+            key="-NEWLINK-",
+            size=25,
+        ),
         sg.Button("＋"),
         sg.Button("?"),
     ],
@@ -83,7 +89,6 @@ while True:
             # Load JSON-file to access links
             with open("links.json") as json_file:
                 links = json.load(json_file)
-                # print(links["links"])
                 for current_website in active_websites:
                     if current_website in links["links"]:
                         link = links["links"][current_website]
@@ -91,6 +96,29 @@ while True:
                         wb.open(link)
 
     # Add a link to the JSON-file using the button
+    if event == "＋":
+        if values["-NEWLINK-"]:
+            with open("links.json", "r") as json_file:
+                links = json.load(json_file)
 
+            # print(values["-NEWLINK-"])
+            new_link = values["-NEWLINK-"]
+            new_link = new_link.split(":")
+            active_websites.append(new_link[0])
+
+            # Update JSON-file with the new link
+            website_dictionary = {f"{new_link[0]}": f"{new_link[1]}"}
+            links["links"].update(website_dictionary)
+
+            # Update listbox
+            window["-ACTIVE-"].update(active_websites)
+            window["-INACTIVE-"].update(inactive_websites)
+
+            with open("links.json", "w") as json_file:
+                json.dump(links, json_file)
+
+    if event == "?":
+        # Pop out explanation how to input new link
+        pass
 
 window.close()
