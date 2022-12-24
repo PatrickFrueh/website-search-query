@@ -118,6 +118,15 @@ while True:
                 json.dump(links, json_file)
 
     if event == "?":
+        sg.PopupScrolled(
+            "\n",
+            "To add a link, use the following format: ",
+            "\nWEBSITE_NAME:https//www.website.com/search={keyword}",
+            "\n",
+            "E.g.:",
+            "\nVinted:https://www.vinted.de/catalog?search_text={keyword}",
+        )
+
         # Pop out explanation how to input new link
         pass
 
